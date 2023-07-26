@@ -47,7 +47,7 @@ func NewEmail(ec EmailConfig) *EmailSender {
 	}
 }
 
-func (es *EmailSender) zipFile(sourcePath string) string {
+func (es *EmailSender) ZipFile(sourcePath string) string {
 	sourceFile, err := os.Open(sourcePath)
 	if err != nil {
 		panic(err)
@@ -74,7 +74,7 @@ func (es *EmailSender) zipFile(sourcePath string) string {
 	return fmt.Sprintf("./%s", zipFileName)
 }
 
-func (es *EmailSender) sendMail(info SendEmailInfo) error {
+func (es *EmailSender) SendMail(info SendEmailInfo) error {
 	e := email.NewEmail()
 	//设置发送方的邮箱
 	e.From = info.From
@@ -84,7 +84,7 @@ func (es *EmailSender) sendMail(info SendEmailInfo) error {
 	e.Subject = info.Subject
 
 	for _, v := range info.Files {
-		zipFileName := es.zipFile(v)
+		zipFileName := es.ZipFile(v)
 		if _, err := e.AttachFile(zipFileName); err != nil {
 			log.Printf("send email AttachFile err, file:%s \n", v)
 			return err
