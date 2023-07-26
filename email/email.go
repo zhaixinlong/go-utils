@@ -32,18 +32,18 @@ type SendEmailInfo struct {
 }
 
 type EmailSender struct {
-	Sender            string
-	AuthorizationCode string
-	SmtpServer        string
-	SendAddr          string
+	sender            string
+	authorizationCode string
+	smtpServer        string
+	sendAddr          string
 }
 
 func NewEmail(ec EmailConfig) *EmailSender {
 	return &EmailSender{
-		Sender:            ec.Sender,
-		SendAddr:          ec.SendAddr,
-		SmtpServer:        ec.SmtpServer,
-		AuthorizationCode: ec.AuthorizationCode,
+		sender:            ec.Sender,
+		sendAddr:          ec.SendAddr,
+		smtpServer:        ec.SmtpServer,
+		authorizationCode: ec.AuthorizationCode,
 	}
 }
 
@@ -96,7 +96,7 @@ func (es *EmailSender) SendMail(info SendEmailInfo) error {
 	log.Printf("send email begin: %+v \n", info.To)
 
 	//设置服务器相关的配置
-	err := e.SendWithTLS(es.SendAddr, smtp.PlainAuth("", es.Sender, es.AuthorizationCode, es.SmtpServer), &tls.Config{ServerName: es.SmtpServer})
+	err := e.SendWithTLS(es.sendAddr, smtp.PlainAuth("", es.sender, es.authorizationCode, es.smtpServer), &tls.Config{ServerName: es.smtpServer})
 	if err != nil {
 		//发送失败
 		log.Printf("send email error to: %+v, err: %+v\n", info.To, err)
