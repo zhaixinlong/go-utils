@@ -1,15 +1,12 @@
 package email
 
 import (
-	"compress/gzip"
 	"crypto/tls"
-	"fmt"
-	"io"
 	"log"
 	"net/smtp"
-	"os"
 
 	"github.com/jordan-wright/email"
+	"github.com/zhaixinlong/go-utils/zip"
 )
 
 type EmailConfig struct {
@@ -47,33 +44,6 @@ func NewEmail(ec EmailConfig) *EmailSender {
 	}
 }
 
-func (es *EmailSender) ZipFile(sourcePath string) string {
-	sourceFile, err := os.Open(sourcePath)
-	if err != nil {
-		panic(err)
-	}
-	defer sourceFile.Close()
-
-	zipFileName := sourcePath + ".gz"
-	gzipFile, err := os.Create(zipFileName)
-	if err != nil {
-		panic(err)
-	}
-	defer gzipFile.Close()
-
-	writer := gzip.NewWriter(gzipFile)
-	_, err = io.Copy(writer, sourceFile)
-	if err != nil {
-		panic(err)
-	}
-	err = writer.Close()
-	if err != nil {
-		panic(err)
-	}
-	log.Printf("zip finished, sourcePath: %s", sourcePath)
-	return fmt.Sprintf("./%s", zipFileName)
-}
-
 func (es *EmailSender) SendMail(info SendEmailInfo) error {
 	e := email.NewEmail()
 	//设置发送方的邮箱
@@ -84,7 +54,7 @@ func (es *EmailSender) SendMail(info SendEmailInfo) error {
 	e.Subject = info.Subject
 
 	for _, v := range info.Files {
-		zipFileName := es.ZipFile(v)
+		zipFileName := zip.ZipFile(v)
 		if _, err := e.AttachFile(zipFileName); err != nil {
 			log.Printf("send email AttachFile err, file:%s \n", v)
 			return err
