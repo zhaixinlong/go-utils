@@ -2,35 +2,34 @@ package zip
 
 import (
 	"compress/gzip"
-	"fmt"
 	"io"
 	"log"
 	"os"
 )
 
-func ZipFile(sourcePath string) string {
+func ZipFile(sourcePath string) (string, error) {
 	sourceFile, err := os.Open(sourcePath)
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 	defer sourceFile.Close()
 
-	zipFileName := sourcePath + ".gz"
-	gzipFile, err := os.Create(zipFileName)
+	zipFilePath := sourcePath + ".gz"
+	gzipFile, err := os.Create(zipFilePath)
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 	defer gzipFile.Close()
 
 	writer := gzip.NewWriter(gzipFile)
 	_, err = io.Copy(writer, sourceFile)
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 	err = writer.Close()
 	if err != nil {
-		panic(err)
+		return "", err
 	}
-	log.Printf("zip finished, sourcePath: %s", sourcePath)
-	return fmt.Sprintf("./%s", zipFileName)
+	log.Printf("zip finished, sourcePath: %s, zipFilePath: %s", sourcePath, zipFilePath)
+	return zipFilePath, nil
 }
