@@ -56,7 +56,11 @@ func (es *EmailSender) SendMail(info SendEmailInfo) error {
 	e.Subject = info.Subject
 
 	for _, v := range info.Files {
-		zipFileName := zip.ZipFile(v)
+		zipFileName, err := zip.ZipFile(v)
+		if err != nil {
+			es.logrus.Printf("send email ZipFile err, file:%s \n", v)
+			return err
+		}
 		if _, err := e.AttachFile(zipFileName); err != nil {
 			es.logrus.Printf("send email AttachFile err, file:%s \n", v)
 			return err
