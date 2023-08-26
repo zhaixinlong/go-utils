@@ -4,7 +4,7 @@ import (
 	"github.com/teris-io/shortid"
 )
 
-func GenerateShortUuid() (string, error) {
+func GenerateShortid() (string, error) {
 	value, err := shortid.Generate()
 	if err != nil {
 		return "", err

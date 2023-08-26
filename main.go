@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	value, err := uuid.GenerateShortUuid()
+	value, err := uuid.GenerateShortid()
 	if err != nil {
 		fmt.Println(err)
 		return
