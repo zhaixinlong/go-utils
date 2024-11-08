@@ -6,7 +6,7 @@ import (
 
 	"github.com/jordan-wright/email"
 	"github.com/sirupsen/logrus"
-	"github.com/zhaixinlong/go-utils/zip"
+	"github.com/zhaixinlong/xlr-utils/zip"
 )
 
 type EmailConfig struct {

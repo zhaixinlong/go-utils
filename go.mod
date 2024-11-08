@@ -1,4 +1,4 @@
-module github.com/zhaixinlong/go-utils
+module github.com/zhaixinlong/xlr-utils
 
 go 1.22.7
 

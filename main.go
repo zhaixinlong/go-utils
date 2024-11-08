@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/zhaixinlong/go-utils/uuid"
+	"github.com/zhaixinlong/xlr-utils/uuid"
 )
 
 func main() {
