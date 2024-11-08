@@ -2,8 +2,6 @@ module github.com/zhaixinlong/xlr-utils
 
 go 1.22.7
 
-toolchain go1.22.9
-
 require (
 	github.com/blinkbean/dingtalk v0.0.0-20210905093040-7d935c0f7e19
 	github.com/go-kratos/kratos/v2 v2.8.2
